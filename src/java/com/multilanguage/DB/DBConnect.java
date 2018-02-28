@@ -7,25 +7,17 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author aykut.karayel
- */
 public class DBConnect {
 
     Connection conn;
-//    Statement stmt;
-//    PreparedStatement prmt;
-
+    
     public DBConnect() {
     }
 
     public Connection getConn() {
         try {
-            Class.forName("org.postgresql.Driver");
-            //this.conn =  DriverManager.getConnection("jdbc:postgresql://localhost:5432/octodb","octosrv","CNTocto!14");
-            this.conn = DriverManager.getConnection("jdbc:postgresql://192.168.1.132:5432/octodb_dev", "octosrv", "CNTocto!14");
-//            this.conn = DriverManager.getConnection("jdbc:postgresql://192.168.1.139:5432/octodb", "octosrv", "CNTocto!14");
+            Class.forName("org.postgresql.Driver");            
+            this.conn = DriverManager.getConnection("jdbc:postgresql://xxx.xxx.xxx.xxx:5432/MyDB", "User", "Password");
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
