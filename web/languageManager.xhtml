@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+
+    <f:view contentType="application/xhtml+xml">
+    <h:head>
+        <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+        </f:facet>
+  
+    </h:head>
+
+        <h:body >
+
+            <p:layout  fullPage="true" >
+                <p:layoutUnit id="luCenter" position="center" >
+
+                    <h:form id="frmSelect">
+                        <p:growl id="msgs" showDetail="true"/>
+                        <p:panel>
+                            <table>
+                                <tr>
+                                    <td><p:outputLabel  value="Language Code :" ></p:outputLabel> </td>
+
+                                    <td><p:inputText value="#{languageBean.newLangCode}" maxlength="2" required="true"></p:inputText></td>
+                                    <td><p:outputLabel value="Language Name :" ></p:outputLabel> </td>
+
+                                    <td><p:inputText value="#{languageBean.newLangName}" required="true" ></p:inputText></td>
+
+                                    <td>
+                                        <p:commandButton value="Insert Language" id="btnGetReport" update="@([id$=DTcolumns], [id$pnlData])"
+                                                         actionListener="#{languageBean.btnInsertLang_Click()}" ></p:commandButton> </td>
+                                </tr>
+                            </table>                            
+                        </p:panel>
+                    </h:form>
+                    <h:form id="frmData">
+
+                        <p:dataTable var="column" value="#{languageBean.langList}" rendered="#{not empty languageBean.langList}" 
+                                     rows="50"  id="DTcolumns" rowKey="#{column.id}" 
+                                     widgetVar="DTcolumns" style=" text-align: center;  margin:auto;">
+            
+
+              
+
+                            <p:column headerText="Id" style="width:26px;text-align:center"  >
+                                <h:outputText value="#{column.id}" />
+                            </p:column>
+
+                            <p:column headerText="Lang Code" style="width:56px;text-align:center">
+                                <h:outputText value="#{column.langCode}" style="font-weight: bold; color:red" />
+                            </p:column>
+
+                            <p:column headerText="Lang Name"  >
+                                <h:outputText value="#{column.langName}" />
+                            </p:column>
+
+                        </p:dataTable>
+                       
+                    </h:form>
+                   
+
+                </p:layoutUnit>
+            </p:layout>  
+        </h:body>
+    </f:view>
+</html>
+

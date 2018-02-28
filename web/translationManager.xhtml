@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//TR"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            </f:facet>
+
+        </h:head>
+
+        <h:body >
+
+            <p:layout  fullPage="true" >
+                <p:layoutUnit id="luCenter" position="center" >
+
+                    <h:form id="frmSelect">
+                        <p:growl id="msgs" showDetail="true"/>
+                        <p:panel>
+                            <table>
+                                <tr>
+                                    <td><p:outputLabel for="cbLangCode" value="Language Code :" /></td>
+
+                                    <td><p:selectOneMenu title="" id="cbLangCode" value="#{translationsBean.selectedLang}" style="width:100px">
+                                            <f:selectItems value="#{translationsBean.langList}" var="langs" itemLabel="#{langs.langName}" itemValue="#{langs.langCode}"></f:selectItems>
+                                        </p:selectOneMenu> </td>
+
+                                    <td>
+                                        <p:commandButton value="Show Columns" id="btnGetReport" update="@([id$=DTcolumns], [id$pnlData])"
+                                                         actionListener="#{translationsBean.btnGetLang_Click()}"  /></td>
+                                </tr>
+                            </table>                            
+                        </p:panel>
+                    </h:form>
+                    <h:form id="frmData">
+
+                        <p:dataTable var="column" value="#{translationsBean.translationsList}" rendered="#{not empty translationsBean.translationsList}" 
+                                  id="DTcolumns" rowKey="#{column.id}" 
+                                     widgetVar="DTcolumns" selection="#{translationsBean.selectedLanguage}" editable="true" style=" text-align: center;  margin:auto;">
+                       
+                            <p:ajax event="rowEdit" listener="#{translationsBean.onRowEdit}"  update=":frmSelect:msgs" />
+                            <p:ajax event="rowEditCancel" listener="#{translationsBean.onRowCancel}" update=":frmSelect:msgs" />
+
+
+                            <p:column headerText="Id" style="width:26px;text-align:center"  >
+                                <h:outputText value="#{column.id}" />
+                            </p:column>
+
+                            <p:column headerText="Code" style="width:56px;text-align:center">
+                             <h:outputText value="#{column.langcode}" style="font-weight: bold; color:red" />
+                            </p:column>
+
+                            <p:column headerText="Lang String"  >
+                               <h:outputText value="#{column.langstring}" />
+                            </p:column>
+
+
+
+                            <p:column headerText="Lang Value" >
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{column.langvalue}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="idLangValue" value="#{column.langvalue}" style="width:100%"/></f:facet>
+
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
+
+                            <f:facet name="footer" class="footer">
+
+                            </f:facet>
+                        </p:dataTable>
+                  
+                    </h:form>
+                  
+                </p:layoutUnit>
+            </p:layout>  
+        </h:body>
+    </f:view>        
+</html>
+

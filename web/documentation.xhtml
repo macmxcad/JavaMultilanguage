@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Multilingual Documentation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div><p><strong>Veritabanı oluşturma:</strong></p>
+            <table style="width: 100%; color:blue;" border="1" >
+                <tbody>
+                    <tr>
+                        <td>CREATE DATABASE multilingual WITH ENCODING='UTF8' OWNER=octosrv CONNECTION LIMIT=-1;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><br /><strong>languages tablosu:</strong> -- Sisteme kayıtlı olan dilleri içerir. Developer tarafından manuel olarak dil eklenir.</p>
+            <table style="width: 100%; color:blue;" border="1">
+                <tbody>
+                    <tr>
+                        <td>CREATE TABLE languages<br />(<br /> id serial, <br /> langcode character varying(2), <br /> langname character varying(50), <br /> CONSTRAINT "PK_language_id" PRIMARY KEY (id)<br />) <br />WITH (<br /> OIDS = FALSE<br />)<br />;<br />ALTER TABLE public.languages<br /> OWNER TO octosrv;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>translations tablosu</strong> --Çeviri bilgilerinin tutulduğu tablo. Sitemde kullanılan her bir cümleciğin, farklı dillerde bir karşılığı olacaktır.</p>
+            <table style="width: 100%; color:blue;" border="1">
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>CREATE TABLE translations<br />(<br /> id serial, <br /> langcode character varying(2), <br /> langstring character varying(5000), <br /> langvalue character varying(5000), <br /> CONSTRAINT "PK_translations_id" PRIMARY KEY (id)<br />) <br />WITH (<br /> OIDS = FALSE<br />)<br />;<br />ALTER TABLE public.translations<br /> OWNER TO octosrv;</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Varsayılan diller</strong> languages tablosuna eklenir:</p>
+            <table style="width: 100%; color:blue;" border="1">
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>INSERT INTO languages(langcode, langname) VALUES ('tr', 'Türkçe'), ('en','English'),('fr','French');</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+           
+            
+            <p><strong>OctoServer İçin</strong> Users Tablosu'na (userlang) alanı eklenir. </p>
+            <table style="width: 100%; color:blue;" border="1">
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>ALTER TABLE users ADD COLUMN userlang character varying(2);</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p><strong>OctoServer İçin</strong> Yedni bir dil eklenmek istediğinde veritabanına eklenecek olan stringler. Önce bu stringler eklenir, daha sonra yönetim sayfasından, eklenecek dilin çevirileri eklenir.
+            Ayrıca üstteki sorgu ile languages tablosuna da bu dilin kodu eklenmiş olması lazım.</p>
+            <table style="width: 100%; color:blue;" border="1">
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>INSERT INTO translations(langcode, langstring) VALUES <br />
+                              
+
+('en','gnrl_edit'), <br />
+('en','gnrl_delete'),<br />
+('en','gnrl_update'),<br />
+('en','gnrl_select'),<br />
+('en','gnrl_width'),<br />
+('en','gnrl_height'),<br />
+('en','gnrl_add'),<br />
+('en','gnrl_user_name'),<br />
+('en','gnrl_password'),<br />
+('en','gnrl_name'),<br />
+('en','gnrl_surname'),<br />
+('en','gnrl_email_address'),<br />
+('en','gnrl_company'),<br />
+('en','gnrl_is_active'),<br />
+('en','gnrl_is_admin'),<br />
+('en','gnrl_save'),<br />
+('en','gnrl_user'),<br />
+('en','gnrl_phone'),<br />
+('en','gnrl_gsm'),<br />
+('en','gnrl_title'),<br />
+('en','gnrl_description'),<br />
+('en','gnrl_required'),<br />
+('en','gnrl_location'),<br />
+('en','gnrl_room'),<br />
+('en','gnrl_device'),<br />
+('en','gnrl_date'),<br />
+('en','gnrl_central_device'),<br />
+('en','menu_monitor'),<br />
+('en','menu_editor'),<br />
+('en','menu_user_definitions'),<br />
+('en','menu_evaparator_types'),<br />
+('en','menu_split_types'),<br />
+('en','menu_companies'),<br />
+('en','menu_projects'),<br />
+('en','menu_zones'),<br />
+('en','menu_octogate_octoservers'),<br />
+('en','menu_comm_ports'),<br />
+('en','menu_alarm_plans'),<br />
+('en','menu_alarm_users'),<br />
+('en','menu_report_columns'),<br />
+('en','menu_logout'),<br />
+('en','menu_reports'),<br />
+('en','menu_split_devices'),<br />
+('en','menu_central_devices'),<br />
+('en','menu_energy_devices'),<br />
+('en','menu_measurement_reports'),<br />
+('en','menu_working_time_reports'),<br />
+('en','menu_alarm_reports'),<br />
+('en','menu_hourly_reports'),<br />
+('en','menu_daily_reports'),<br />
+('en','monitor_locations'),<br />
+('en','monitor_save_screen_settings'),<br />
+('en','editor_locations'),<br />
+('en','editor_location'),<br />
+('en','editor_zoom_in'),<br />
+('en','editor_zoom_out'),<br />
+('en','editor_connector_off'),<br />
+('en','editor_connector_on'),<br />
+('en','editor_con_devices_off'),<br />
+('en','editor_con_devices_on'),<br />
+('en','editor_con_centrals_on'),<br />
+('en','editor_con_centrals_off'),<br />
+('en','editor_con_energy_on'),<br />
+('en','editor_con_energy_off'),<br />
+('en','editor_components'),<br />
+('en','editor_rooms'),<br />
+('en','editor_evaparators'),<br />
+('en','editor_doors'),<br />
+('en','editor_devices'),<br />
+('en','editor_split_unit'),<br />
+('en','udef_add_new_user'),<br />
+('en','udef_change_parameter'),<br />
+('en','udef_page_permissions'),<br />
+('en','udef_function_permissions'),<br />
+('en','udef_alarm_rules'),<br />
+('en','udef_pages'),<br />
+('en','udef_authorize'),<br />
+('en','udef_generate'),<br />
+('en','evapt_type_id'),<br />
+('en','evapt_fan_kwh'),<br />
+('en','evapt_defrost_kwh'),<br />
+('en','evapt_multiplier'),<br />
+('en','evapt_add_evap_type'),<br />
+('en','evapt_new_evap_type'),<br />
+('en','splitt_con_kwh'),<br />
+('en','splitt_add_split_type'),<br />
+('en','splitt_new_split_type'),<br />
+('en','splitt_split_types'),<br />
+('en','company_add_new_company'),<br />
+('en','company_company_name'),<br />
+('en','company_logo'),<br />
+('en','cport_interval'),<br />
+('en','company_upload_logo'),<br />
+('en','company_new_company'),<br />
+('en','company_company_logo'),<br />
+('en','project_project_name'),<br />
+('en','project_contract_no'),<br />
+('en','project_add_new_project'),<br />
+('en','project_new_project'),<br />
+('en','zones_add_new_zone'),<br />
+('en','zones_zone_name'),<br />
+('en','zones_default_energy_price'),<br />
+('en','zones_price_currency'),<br />
+('en','zones_new_zone'),<br />
+('en','cport_refresh_ports'),<br />
+('en','cport_octoserver_port_management'),<br />
+('en','cport_port_name'),<br />
+('en','cport_port_plug_state'),<br />
+('en','cport_port_registered'),<br />
+('en','cport_buttons'),<br />
+('en','cport_delete_port'),<br />
+('en','alplan_please_select_device_type_first'),<br />
+('en','alplan_alarm_plan_name'),<br />
+('en','alplan_select_device'),<br />
+('en','alplan_select_user'),<br />
+('en','alplan_select_interval_minute'),<br />
+('en','alplan_set_active'),<br />
+('en','alplan_select_alarm_type'),<br />
+('en','alplan_save_plan'),<br />
+('en','alplan_plan_id'),<br />
+('en','alplan_plan_name'),<br />
+('en','alplan_plan_user'),<br />
+('en','alplan_device'),<br />
+('en','alplan_interval'),<br />
+('en','alplan_delete_selected_plan'),<br />
+('en','alplan_edit_plan'),<br />
+('en','alplan_location'),<br />
+('en','alplan_room'),<br />
+('en','aluser_send_email'),<br />
+('en','aluser_send_sms?'),<br />
+('en','aluser_delete_selected_user'),<br />
+('en','aluser_save_user'),<br />
+('en','repcol_device_type'),<br />
+('en','repcol_report_type'),<br />
+('en','repcol_show_columns'),<br />
+('en','repcol_add_column'),<br />
+('en','reports_locations'),<br />
+('en','reports_rooms'),<br />
+('en','reports_devices'),<br />
+('en','reports_columns'),<br />
+('en','reports_start_date'),<br />
+('en','reports_end_date'),<br />
+('en','reports_get_report'),<br />
+('en','setup_LabelBack'),<br />
+('en','setup_LabelNext'),<br />
+('en','setup_WizardHeader'),<br />
+('en','setup_WelcomeMsg'),<br />
+('en','setup_CaptionSelectLang'),<br />
+('en','setup_CaptionUserInfo'),<br />
+('en','setup_LabelName'),<br />
+('en','setup_LabelSurname'),<br />
+('en','setup_LabelUserName'),<br />
+('en','setup_LabelUserPassword'),<br />
+('en','setup_LoginDescription'),<br />
+('en','setup_CaptionNetwork'),<br />
+('en','setup_CaptionLogin'),<br />
+('en','setup_ErrorLoginCaption'),<br />
+('en','setup_ErrorLogin'),<br />
+('en','setup_ErrorPassNotMatch'),<br />
+('en','setup_LabelIPAddress'),<br />
+('en','setup_LabelSubnetMask'),<br />
+('en','setup_LabelGateway'),<br />
+('en','setup_ErrorValidation'),<br />
+('en','setup_ErrorIpAddressValidation'),<br />
+('en','setup_CaptionFirmInfo'),<br />
+('en','setup_LabelFirmName'),<br />
+('en','setup_LabelPhoneNumber'),<br />
+('en','setup_LabelProjectName'),<br />
+('en','setup_LabelProjectNo'),<br />
+('en','setup_LabelZonePhone'),<br />
+('en','setup_CaptionZoneInfo'),<br />
+('en','setup_WizardFinish'),<br />
+('en','setup_DNSPrimary'),<br />
+('en','setup_DNSSecondary'),<br />
+('en','setup_LabelUserPassword2'),<br />
+('en','setup_LabelCurrency'),<br />
+('en','setup_LabelCurrencyUSD'),<br />
+('en','setup_LabelCurrencyEURO'),<br />
+('en','setup_LabelCurrencyTRL'),<br />
+('en','setup_LabelKwPrice');<br />
+
+
+
+</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+
+           </div>
+    </body>
+</html>
